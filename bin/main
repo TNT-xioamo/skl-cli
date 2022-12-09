@@ -1,0 +1,31 @@
+#! /usr/bin/env node
+
+const program = require('commander')
+const version = require('../package.json').version
+const chalk = require('chalk')
+const createModel = require('../lib/create.js')
+
+program.on('--help', () => {
+  console.log(`Run ${chalk.cyan('skl-cli <command> --help')} for detailed usage of given command.`)
+})
+
+program
+  .name('skl-cli')
+  .usage(`<command> [option]`)
+  .version(version, '-v, --version')
+
+// program
+//     .version('1.0.0','-v, --version')
+//     .command('init')
+//     .description('initialize your meet config')
+//     .action(initial)
+
+program
+  .command('create <project-name>')
+  .description('create a new project')
+  .option('-f,--force', 'overwrite target directory if it exists')
+  .action((projectName, options) => {
+    createModel(projectName, options)
+  })
+  program.parse(process.argv)
+// console.log('我是入口文件....')
